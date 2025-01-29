@@ -113,13 +113,69 @@
 -- Drop existing tables, so you'll start fresh each time this script is run.
 -- TODO!
 
+DROP TABLE IF EXISTS movie_cast;
+DROP TABLE IF EXISTS actors;
+DROP TABLE IF EXISTS movies;
+DROP TABLE IF EXISTS studios;
+
 -- Create new tables, according to your domain model
 -- TODO!
+
+CREATE TABLE studios (
+    studio_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT
+);
+
+CREATE TABLE movies (
+    movie_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    year_released INTEGER,
+    mpaa_rating TEXT,
+    studio_id INTEGER,
+    FOREIGN KEY (studio_id) REFERENCES studios(studio_id)
+);
+
+CREATE TABLE actors (
+    actor_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT
+);
+
+CREATE TABLE movie_cast (
+    movie_cast_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    movie_id INTEGER,
+    actor_id INTEGER,
+    character_name TEXT,
+    FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
+    FOREIGN KEY (actor_id) REFERENCES actors(actor_id)
+);
+
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
 
+INSERT INTO studios (name) VALUES ('Warner Bros.');
+
+INSERT INTO movies (title, year_released, mpaa_rating, studio_id)
+VALUES 
+    ('Batman Begins', 2005, 'PG-13', 1),
+    ('The Dark Knight', 2008, 'PG-13', 1),
+    ('The Dark Knight Rises', 2012, 'PG-13', 1);
+
+INSERT INTO actors (name)
+VALUES 
+    ('Christian Bale'),
+    ('Michael Caine'),
+    ('Liam Neeson'),
+    ('Katie Holmes'),
+    ('Gary Oldman'),
+    ('Heath Ledger'),
+    ('Aaron Eckhart'),
+    ('Maggie Gyllenhaal'),
+    ('Tom Hardy'),
+    ('Joseph Gordon-Levitt'),
+    ('Anne Hathaway');
+    
 -- Prints a header for the movies output
 .print "Movies"
 .print "======"
@@ -137,3 +193,5 @@
 
 -- The SQL statement for the cast output
 -- TODO!
+
+
